@@ -52,6 +52,10 @@ struct h8_3069_sci {
 /* Array of struct {volatile struct h8_3069_sci *sci;} 
  * Initialize with H8_3069_SCI0~1
  */
+/* Why can't it be a simple array of pointers like
+ * volatile static struct h8_3069_sci *regs[SERIAL_SCI_NUM] = 
+ * {H8_3069_SCI0, H8_3069_SCI1, H8_3069_SCI2}
+ */
 static struct {
     volatile struct h8_3069_sci *sci;
 } regs[SERIAL_SCI_NUM] = {
@@ -66,11 +70,11 @@ int serial_init(int index)
 {
     volatile struct h8_3069_sci *sci = regs[index].sci;
 
-    sci->scr = 0;
-    sci->smr = 0;
-    sci->brr = 64;
-    sci->scr = H8_3069F_SCI_SCR_RE | H8_3069F_SCI_SCR_TE;
-    sci->ssr = 0;
+    sci->scr = 0; // Init scr
+    sci->smr = 0; // Chage serial communication mode
+    sci->brr = 64; // Baud rate
+    sci->scr = H8_3069F_SCI_SCR_RE | H8_3069F_SCI_SCR_TE; // Enable receive and transmit
+    sci->ssr = 0; // Init ssr
 
     return 0;
 }

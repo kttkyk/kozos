@@ -40,7 +40,7 @@ CFLAGS += -Os
 CFLAGS += -DKZLOAD
 
 
-LDFLAGS = 0static -T ld.scr -L.
+LFLAGS = -static -T ld.scr -L.
 
 
 .SUFFIXES: .c .o
